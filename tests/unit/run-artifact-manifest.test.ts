@@ -1,8 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import {
-  buildReviewLog,
-  buildRunArtifactManifest,
-} from '../../src/artifacts/run-artifact-manifest.js';
+import { buildRunArtifactManifest } from '../../src/artifacts/run-artifact-manifest.js';
+import { buildReviewLog } from '../../src/artifacts/review-log.js';
 
 describe('run artifact manifest', () => {
   it('builds success manifests with required and optional artifacts', () => {
