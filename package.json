@@ -1,0 +1,32 @@
+{
+  "name": "soul-mate-signal-engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Deterministic public-signal compatibility engine bootstrap.",
+  "license": "All Rights Reserved",
+  "packageManager": "npm@10.8.2",
+  "engines": {
+    "node": ">=20 <21"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:md": "markdownlint-cli2 \"README.md\" \"docs/**/*.md\" \"prompts/**/*.md\" \"schemas/**/*.md\" \"templates/**/*.md\" \"!node_modules/**\" \"!logs/**\" \"!runs/**\" \"!outputs/**\" \"!.git/**\"",
+    "lint": "npm run lint:md",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run tests/unit",
+    "validate:json-yaml": "node ./scripts/validate-json-yaml.mjs",
+    "validate:structure": "node ./scripts/validate-repo-structure.mjs",
+    "validate:schemas": "node ./scripts/validate-schemas.mjs",
+    "validate:artifact-filenames": "node ./scripts/validate-artifact-filenames.mjs",
+    "ci:gate": "npm run format:check && npm run lint && npm run validate:json-yaml && npm run validate:structure && npm run validate:schemas && npm run validate:artifact-filenames && npm run typecheck && npm run test"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "markdownlint-cli2": "^0.18.1",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.1",
+    "yaml": "^2.7.1"
+  }
+}
