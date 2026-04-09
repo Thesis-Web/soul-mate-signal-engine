@@ -4,6 +4,7 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { runFromAgentPayloads } from '../../src/orchestration/run-from-agent-payloads.js';
 import type { OutputLanguagePolicy, ScoringConfig } from '../../src/index.js';
+import type { ProfessionalReportContract } from '../../src/types/artifacts.js';
 
 const scoringConfig: ScoringConfig = {
   version: '0.1.0',
@@ -39,6 +40,21 @@ const outputLanguagePolicy: OutputLanguagePolicy = {
   ],
 };
 
+const professionalReportContract: ProfessionalReportContract = {
+  version: '0.1.0',
+  operator_mode: 'human_as_interface',
+  required_sections: [
+    'executive_summary',
+    'subject_signal_summary',
+    'ranked_candidates',
+    'cautions_and_unknowns',
+    'operator_next_actions',
+    'advisory_boundary',
+  ],
+  max_ranked_candidates: 5,
+  requires_advisory_boundary: true,
+};
+
 describe('ingest runner', () => {
   it('emits deterministic artifacts from agent payloads', async () => {
     const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'smse-ingest-'));
@@ -54,6 +70,7 @@ describe('ingest runner', () => {
       outputDir,
       scoringConfig,
       outputLanguagePolicy,
+      professionalReportContract,
     });
 
     expect(result.rankedMatches[0]?.handle).toBe('ada_signal');
@@ -66,10 +83,17 @@ describe('ingest runner', () => {
       '04-match-scorecard.json',
       '05-output-brief.md',
       '06-review-log.json',
+      '07-opener-pack.json',
       '08-run-metrics.json',
+      '09-professional-report.json',
+      '10-professional-report.md',
     ]);
 
     const scorecard = await readFile(path.join(outputDir, '04-match-scorecard.json'), 'utf8');
     expect(scorecard).toContain('ada_signal');
+
+    const report = await readFile(path.join(outputDir, '10-professional-report.md'), 'utf8');
+    expect(report).toContain('## Executive Summary');
+    expect(report).toContain('## Advisory Boundary');
   });
 });

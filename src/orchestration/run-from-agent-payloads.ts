@@ -2,12 +2,15 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import {
   assertAllowedOutputLanguage,
+  buildProfessionalReport,
   buildReviewLog,
   buildRunArtifactManifest,
   computeWeightedScore,
+  renderProfessionalReportMarkdown,
 } from '../index.js';
 import { normalizeAgentPayloads } from '../ingestion/normalize-agent-payload.js';
 import type { AgentPayload } from '../types/agent-payload.js';
+import type { OpenerPackEntry, ProfessionalReportContract, ReviewLog } from '../types/artifacts.js';
 import type {
   AuditedSignal,
   CandidateMatch,
@@ -44,7 +47,6 @@ function mapValuesAlignment(candidate: CandidateMatch, signal: AuditedSignal): n
 
 function mapRelationshipCompatibility(subject: SubjectProfile, signal: AuditedSignal): number {
   const subjectHasIntent = subject.relationship_signals.length > 0;
-
   if (!subjectHasIntent) return 50;
   if (signal.availability_signal === 'available') return 80;
   if (signal.availability_signal === 'unclear') return 52;
@@ -52,12 +54,15 @@ function mapRelationshipCompatibility(subject: SubjectProfile, signal: AuditedSi
 }
 
 function mapEmotionalToneFit(subject: SubjectProfile, signal: AuditedSignal): number {
-  if (subject.emotional_tone === 'optimistic' && signal.communication_style === 'thoughtful')
+  if (subject.emotional_tone === 'optimistic' && signal.communication_style === 'thoughtful') {
     return 76;
-  if (subject.emotional_tone === 'optimistic' && signal.communication_style === 'playful')
+  }
+  if (subject.emotional_tone === 'optimistic' && signal.communication_style === 'playful') {
     return 72;
-  if (subject.emotional_tone === 'melancholic' && signal.communication_style === 'supportive')
+  }
+  if (subject.emotional_tone === 'melancholic' && signal.communication_style === 'supportive') {
     return 78;
+  }
   return 64;
 }
 
@@ -86,10 +91,12 @@ function mapRecencyStrength(candidate: CandidateMatch, signal: AuditedSignal): n
 }
 
 function mapCautionBand(signal: AuditedSignal): RankedMatch['caution_band'] {
-  if (signal.disqualifier_flags.length > 0 || signal.availability_signal === 'unavailable')
+  if (signal.disqualifier_flags.length > 0 || signal.availability_signal === 'unavailable') {
     return 'high';
-  if (signal.caution_flags.length > 0 || signal.availability_signal === 'unclear')
+  }
+  if (signal.caution_flags.length > 0 || signal.availability_signal === 'unclear') {
     return 'moderate';
+  }
   return 'low';
 }
 
@@ -157,6 +164,15 @@ function buildOutputBrief(input: {
   return `${lines.join('\n')}\n`;
 }
 
+function buildOpenerPack(rankedMatches: RankedMatch[]): OpenerPackEntry[] {
+  return rankedMatches.map((match) => ({
+    rank: match.rank,
+    handle: match.handle,
+    opener_suggestion: match.opener_suggestion,
+    caution_band: match.caution_band,
+  }));
+}
+
 async function readJsonFile<T>(filePath: string): Promise<T> {
   const raw = await readFile(filePath, 'utf8');
   return JSON.parse(raw) as T;
@@ -169,6 +185,7 @@ export async function runFromAgentPayloads(input: {
   outputDir: string;
   scoringConfig: ScoringConfig;
   outputLanguagePolicy: OutputLanguagePolicy;
+  professionalReportContract: ProfessionalReportContract;
 }): Promise<{
   outputDir: string;
   rankedMatches: RankedMatch[];
@@ -239,7 +256,7 @@ export async function runFromAgentPayloads(input: {
       ...item,
     }));
 
-  const reviewLog = buildReviewLog({
+  const reviewLog: ReviewLog = buildReviewLog({
     run_id: input.runId,
     created_at: input.createdAt,
     notes: ['Ingested external agent payloads through human-as-interface mode.'],
@@ -255,6 +272,16 @@ export async function runFromAgentPayloads(input: {
     created_at: input.createdAt,
   });
 
+  const professionalReport = buildProfessionalReport({
+    run_id: input.runId,
+    created_at: input.createdAt,
+    payload_agents: payloads.map((payload) => payload.agent_id),
+    subject_profile: subjectProfile,
+    ranked_matches: rankedMatches,
+    review_log: reviewLog,
+    contract: input.professionalReportContract,
+  });
+
   await mkdir(input.outputDir, { recursive: true });
 
   const writes = new Map<string, string>([
@@ -264,6 +291,7 @@ export async function runFromAgentPayloads(input: {
     ['04-match-scorecard.json', JSON.stringify(rankedMatches, null, 2)],
     ['05-output-brief.md', buildOutputBrief({ runId: input.runId, subjectProfile, rankedMatches })],
     ['06-review-log.json', JSON.stringify(reviewLog, null, 2)],
+    ['07-opener-pack.json', JSON.stringify(buildOpenerPack(rankedMatches), null, 2)],
     [
       '08-run-metrics.json',
       JSON.stringify(
@@ -271,16 +299,22 @@ export async function runFromAgentPayloads(input: {
           run_id: input.runId,
           created_at: input.createdAt,
           payload_count: payloads.length,
+          payload_agents: [...new Set(payloads.map((payload) => payload.agent_id))],
           candidate_count: candidatePool.length,
           ranked_count: rankedMatches.length,
           emitted_required_artifacts: artifactManifest.artifacts
             .filter((item) => item.requirement_level === 'required')
+            .map((item) => item.file_name),
+          emitted_optional_artifacts: artifactManifest.artifacts
+            .filter((item) => item.requirement_level === 'optional')
             .map((item) => item.file_name),
         },
         null,
         2,
       ),
     ],
+    ['09-professional-report.json', JSON.stringify(professionalReport, null, 2)],
+    ['10-professional-report.md', renderProfessionalReportMarkdown(professionalReport)],
   ]);
 
   for (const [fileName, content] of writes.entries()) {

@@ -11,6 +11,7 @@ const schemaFiles = [
   'schemas/run-artifact-manifest.schema.json',
   'schemas/review-log.schema.json',
   'schemas/agent-payload.schema.json',
+  'schemas/professional-report.schema.json',
 ];
 
 const failures = [];
@@ -99,7 +100,12 @@ const expectedSuccessfulRequired = [
   '06-review-log.json',
 ];
 
-const expectedSuccessfulOptional = ['07-opener-pack.json', '08-run-metrics.json'];
+const expectedSuccessfulOptional = [
+  '07-opener-pack.json',
+  '08-run-metrics.json',
+  '09-professional-report.json',
+  '10-professional-report.md',
+];
 
 const expectedFailureOnly = ['00-failure-log.json'];
 
@@ -117,6 +123,43 @@ if (!sameArray(artifactPolicy.successful_run_optional ?? [], expectedSuccessfulO
 
 if (!sameArray(artifactPolicy.failure_only ?? [], expectedFailureOnly)) {
   failures.push('manifests/artifact-policy.json: failure_only does not match contract');
+}
+
+const professionalReportContract = JSON.parse(
+  fs.readFileSync(path.resolve('manifests/professional-report-contract.json'), 'utf8'),
+);
+
+const expectedSections = [
+  'executive_summary',
+  'subject_signal_summary',
+  'ranked_candidates',
+  'cautions_and_unknowns',
+  'operator_next_actions',
+  'advisory_boundary',
+];
+
+if (professionalReportContract.operator_mode !== 'human_as_interface') {
+  failures.push(
+    'manifests/professional-report-contract.json: operator_mode must be human_as_interface',
+  );
+}
+
+if (!sameArray(professionalReportContract.required_sections ?? [], expectedSections)) {
+  failures.push(
+    'manifests/professional-report-contract.json: required_sections does not match contract',
+  );
+}
+
+if (Number(professionalReportContract.max_ranked_candidates) < 1) {
+  failures.push(
+    'manifests/professional-report-contract.json: max_ranked_candidates must be positive',
+  );
+}
+
+if (professionalReportContract.requires_advisory_boundary !== true) {
+  failures.push(
+    'manifests/professional-report-contract.json: requires_advisory_boundary must be true',
+  );
 }
 
 if (failures.length > 0) {

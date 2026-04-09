@@ -28,6 +28,8 @@ const optionalArtifactRoleMap: Record<
 > = {
   '07-opener-pack.json': 'opener_pack',
   '08-run-metrics.json': 'run_metrics',
+  '09-professional-report.json': 'professional_report_contract',
+  '10-professional-report.md': 'professional_report_document',
 };
 
 const failureArtifactRoleMap: Record<FailureOnlyArtifact, ArtifactPlanEntry['artifact_role']> = {
@@ -37,7 +39,6 @@ const failureArtifactRoleMap: Record<FailureOnlyArtifact, ArtifactPlanEntry['art
 export function getSuccessfulArtifactPlan(): ArtifactPlanEntry[] {
   const requiredEntries = successfulRunRequiredArtifacts.map((fileName) => {
     const sequence = Number(fileName.slice(0, 2));
-
     return {
       sequence,
       file_name: fileName,
@@ -48,7 +49,6 @@ export function getSuccessfulArtifactPlan(): ArtifactPlanEntry[] {
 
   const optionalEntries = successfulRunOptionalArtifacts.map((fileName) => {
     const sequence = Number(fileName.slice(0, 2));
-
     return {
       sequence,
       file_name: fileName,
@@ -63,7 +63,6 @@ export function getSuccessfulArtifactPlan(): ArtifactPlanEntry[] {
 export function getFailureArtifactPlan(): ArtifactPlanEntry[] {
   return failureOnlyArtifacts.map((fileName) => {
     const sequence = Number(fileName.slice(0, 2));
-
     return {
       sequence,
       file_name: fileName,

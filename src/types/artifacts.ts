@@ -1,4 +1,4 @@
-import type { EvidenceClass, EvidenceItem, SourceClass } from './runtime-contract.js';
+import type { CautionBand, EvidenceClass, EvidenceItem, SourceClass } from './runtime-contract.js';
 
 export const successfulRunRequiredArtifacts = [
   '01-subject-profile.json',
@@ -12,6 +12,8 @@ export const successfulRunRequiredArtifacts = [
 export const successfulRunOptionalArtifacts = [
   '07-opener-pack.json',
   '08-run-metrics.json',
+  '09-professional-report.json',
+  '10-professional-report.md',
 ] as const;
 
 export const failureOnlyArtifacts = ['00-failure-log.json'] as const;
@@ -34,7 +36,9 @@ export type ArtifactRole =
   | 'output_brief'
   | 'review_log'
   | 'opener_pack'
-  | 'run_metrics';
+  | 'run_metrics'
+  | 'professional_report_contract'
+  | 'professional_report_document';
 
 export type ArtifactRequirementLevel = 'required' | 'optional' | 'failure_only';
 export type RunStatus = 'success' | 'failure';
@@ -72,3 +76,49 @@ export interface BuildEvidenceItemInput {
 }
 
 export type NarrativeSupportEvidence = Pick<EvidenceItem, 'evidence_class'>;
+
+export interface OpenerPackEntry {
+  rank: number;
+  handle: string;
+  opener_suggestion: string;
+  caution_band: CautionBand;
+}
+
+export interface ProfessionalReportContract {
+  version: string;
+  operator_mode: 'human_as_interface';
+  required_sections: [
+    'executive_summary',
+    'subject_signal_summary',
+    'ranked_candidates',
+    'cautions_and_unknowns',
+    'operator_next_actions',
+    'advisory_boundary',
+  ];
+  max_ranked_candidates: number;
+  requires_advisory_boundary: boolean;
+}
+
+export interface ProfessionalReportMatch {
+  rank: number;
+  handle: string;
+  compatibility_score: number;
+  caution_band: CautionBand;
+  explanation: string;
+  opener_suggestion: string;
+  source_links: string[];
+}
+
+export interface ProfessionalReport {
+  run_id: string;
+  created_at: string;
+  operator_mode: 'human_as_interface';
+  subject_handle: string;
+  payload_agents: string[];
+  executive_summary: string;
+  subject_signal_summary: string;
+  ranked_candidates: ProfessionalReportMatch[];
+  cautions_and_unknowns: string[];
+  operator_next_actions: string[];
+  advisory_boundary: string;
+}

@@ -32,14 +32,14 @@ Not allowed:
 
 ## 4. Recommended Dry-Run Sequence
 
-1. collect subject handle
-2. collect public profile and recent-post evidence
-3. collect candidate discovery evidence
-4. collect candidate audit evidence
-5. normalize evidence into runtime contract
-6. score candidates
-7. review cautions and unknowns
-8. emit advisory brief
+1. run `npm run run:prepare` to get the kickoff prompt
+2. run `npm run run:prepare -- --subject "<subject>"` to emit Grok and Perplexity instructions plus prompts
+3. paste the versioned instructions into the external tool once and wait for `acknowledged`
+4. paste the subject-specific prompt into each external tool
+5. collect the returned JSON payloads without editing field names
+6. run `npm run run:ingest` with the payload paths
+7. review cautions, unknowns, and the professional report
+8. decide whether a new corroboration pass is required
 
 ## 5. Required Operator Discipline
 

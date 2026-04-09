@@ -45,9 +45,11 @@ This baseline establishes:
 - TypeScript strict mode
 - basic unit test harness
 - CI workflow
-- schema placeholder set
+- runtime contract and JSON schemas
 - validation scripts
-- blueprint and spec placeholders
+- dry-run and agent-ingest execution paths
+- professional report output contract
+- operator kickoff and prompt-prep flow
 
 ## Planned runtime flow
 
@@ -85,6 +87,42 @@ Current CI gate enforces:
 - scripts
 - src
 - tests
+
+## Live-run operator commands
+
+Kickoff prompt only:
+
+    npm run run:prepare
+
+Subject-ready prompt packet:
+
+    npm run run:prepare -- --subject "Elon Musk"
+
+Ingest run from external agent payloads:
+
+    npm run run:ingest -- \
+      --run-id run-20260410-elon-live-01 \
+      --created-at 2026-04-10T02:00:00Z \
+      --payload path/to/grok.json \
+      --payload path/to/perplexity.json
+
+## Successful ingest artifacts
+
+Required:
+
+- 01-subject-profile.json
+- 02-candidate-pool.json
+- 03-audited-signal-set.json
+- 04-match-scorecard.json
+- 05-output-brief.md
+- 06-review-log.json
+
+Optional:
+
+- 07-opener-pack.json
+- 08-run-metrics.json
+- 09-professional-report.json
+- 10-professional-report.md
 
 ## Next build order
 

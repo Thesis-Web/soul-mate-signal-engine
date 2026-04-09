@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/professional-report.schema.json",
+  "title": "ProfessionalReport",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "run_id": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "minLength": 1 },
+    "operator_mode": {
+      "type": "string",
+      "enum": ["human_as_interface"]
+    },
+    "subject_handle": { "type": "string", "minLength": 1 },
+    "payload_agents": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "executive_summary": { "type": "string", "minLength": 1 },
+    "subject_signal_summary": { "type": "string", "minLength": 1 },
+    "ranked_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rank": { "type": "integer", "minimum": 1 },
+          "handle": { "type": "string", "minLength": 1 },
+          "compatibility_score": { "type": "number", "minimum": 0, "maximum": 100 },
+          "caution_band": { "type": "string", "enum": ["low", "moderate", "high"] },
+          "explanation": { "type": "string", "minLength": 1 },
+          "opener_suggestion": { "type": "string", "minLength": 1 },
+          "source_links": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        },
+        "required": [
+          "rank",
+          "handle",
+          "compatibility_score",
+          "caution_band",
+          "explanation",
+          "opener_suggestion",
+          "source_links"
+        ]
+      }
+    },
+    "cautions_and_unknowns": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "operator_next_actions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "advisory_boundary": { "type": "string", "minLength": 1 }
+  },
+  "required": [
+    "run_id",
+    "created_at",
+    "operator_mode",
+    "subject_handle",
+    "payload_agents",
+    "executive_summary",
+    "subject_signal_summary",
+    "ranked_candidates",
+    "cautions_and_unknowns",
+    "operator_next_actions",
+    "advisory_boundary"
+  ]
+}
