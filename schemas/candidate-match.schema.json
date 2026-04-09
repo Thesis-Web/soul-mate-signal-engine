@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/candidate-match.schema.json",
+  "title": "CandidateMatch",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "handle": { "type": "string", "minLength": 1 },
+    "matched_interests": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "interest_overlap_score": { "type": "number", "minimum": 0, "maximum": 100 },
+    "community_overlap_signals": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidence_items": {
+      "type": "array",
+      "items": { "$ref": "schemas/evidence-item.schema.json" }
+    }
+  },
+  "required": [
+    "handle",
+    "matched_interests",
+    "interest_overlap_score",
+    "community_overlap_signals",
+    "evidence_items"
+  ]
+}

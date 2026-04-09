@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/subject-input.schema.json",
+  "title": "SubjectInput",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "subject_input": { "type": "string", "minLength": 1 },
+    "input_type": { "type": "string", "enum": ["handle", "x_url"] },
+    "collected_at": { "type": "string", "minLength": 1 }
+  },
+  "required": ["subject_input", "input_type", "collected_at"]
+}

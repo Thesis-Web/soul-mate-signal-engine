@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/subject-profile.schema.json",
+  "title": "SubjectProfile",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "handle": { "type": "string", "minLength": 1 },
+    "profile_bio": { "type": "string" },
+    "pinned_post_excerpt": { "type": "string" },
+    "recent_posts": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "interests": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "humor_style": {
+      "type": "string",
+      "enum": ["dry", "absurdist", "self_deprecating", "wholesome", "none"]
+    },
+    "emotional_tone": {
+      "type": "string",
+      "enum": ["optimistic", "neutral", "venting", "melancholic"]
+    },
+    "relationship_signals": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "cadence_summary": { "type": "string" },
+    "evidence_items": {
+      "type": "array",
+      "items": { "$ref": "schemas/evidence-item.schema.json" }
+    }
+  },
+  "required": [
+    "handle",
+    "profile_bio",
+    "pinned_post_excerpt",
+    "recent_posts",
+    "interests",
+    "humor_style",
+    "emotional_tone",
+    "relationship_signals",
+    "cadence_summary",
+    "evidence_items"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/audited-signal.schema.json",
+  "title": "AuditedSignal",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "handle": { "type": "string", "minLength": 1 },
+    "communication_style": {
+      "type": "string",
+      "enum": ["playful", "thoughtful", "debative", "supportive"]
+    },
+    "availability_signal": {
+      "type": "string",
+      "enum": ["available", "unclear", "unavailable"]
+    },
+    "energy_level": { "type": "number", "minimum": 0, "maximum": 10 },
+    "caution_flags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "disqualifier_flags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "spark_indicators": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidence_items": {
+      "type": "array",
+      "items": { "$ref": "schemas/evidence-item.schema.json" }
+    }
+  },
+  "required": [
+    "handle",
+    "communication_style",
+    "availability_signal",
+    "energy_level",
+    "caution_flags",
+    "disqualifier_flags",
+    "spark_indicators",
+    "evidence_items"
+  ]
+}

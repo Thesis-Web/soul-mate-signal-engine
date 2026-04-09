@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/ranked-match.schema.json",
+  "title": "RankedMatch",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "rank": { "type": "integer", "minimum": 1 },
+    "handle": { "type": "string", "minLength": 1 },
+    "compatibility_score": { "type": "number", "minimum": 0, "maximum": 100 },
+    "dimension_scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "interest_overlap": { "type": "number", "minimum": 0, "maximum": 100 },
+        "humor_style_resonance": { "type": "number", "minimum": 0, "maximum": 100 },
+        "values_alignment": { "type": "number", "minimum": 0, "maximum": 100 },
+        "social_tempo": { "type": "number", "minimum": 0, "maximum": 100 },
+        "relationship_signal_compatibility": { "type": "number", "minimum": 0, "maximum": 100 },
+        "emotional_tone_fit": { "type": "number", "minimum": 0, "maximum": 100 },
+        "community_adjacency": { "type": "number", "minimum": 0, "maximum": 100 },
+        "reciprocity_probability": { "type": "number", "minimum": 0, "maximum": 100 }
+      },
+      "required": [
+        "interest_overlap",
+        "humor_style_resonance",
+        "values_alignment",
+        "social_tempo",
+        "relationship_signal_compatibility",
+        "emotional_tone_fit",
+        "community_adjacency",
+        "reciprocity_probability"
+      ]
+    },
+    "evidence_strength": { "type": "number", "minimum": 0, "maximum": 100 },
+    "recency_strength": { "type": "number", "minimum": 0, "maximum": 100 },
+    "caution_band": { "type": "string", "enum": ["low", "moderate", "high"] },
+    "explanation": { "type": "string", "minLength": 1 },
+    "opener_suggestion": { "type": "string", "minLength": 1 },
+    "source_links": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "required": [
+    "rank",
+    "handle",
+    "compatibility_score",
+    "dimension_scores",
+    "evidence_strength",
+    "recency_strength",
+    "caution_band",
+    "explanation",
+    "opener_suggestion",
+    "source_links"
+  ]
+}

@@ -18,8 +18,9 @@
     "validate:json-yaml": "node ./scripts/validate-json-yaml.mjs",
     "validate:structure": "node ./scripts/validate-repo-structure.mjs",
     "validate:schemas": "node ./scripts/validate-schemas.mjs",
+    "validate:runtime-contracts": "node ./scripts/validate-runtime-contracts.mjs",
     "validate:artifact-filenames": "node ./scripts/validate-artifact-filenames.mjs",
-    "ci:gate": "npm run format:check && npm run lint && npm run validate:json-yaml && npm run validate:structure && npm run validate:schemas && npm run validate:artifact-filenames && npm run typecheck && npm run test"
+    "ci:gate": "npm run format:check && npm run lint && npm run validate:json-yaml && npm run validate:structure && npm run validate:schemas && npm run validate:runtime-contracts && npm run validate:artifact-filenames && npm run typecheck && npm run test"
   },
   "devDependencies": {
     "@types/node": "^22.14.1",

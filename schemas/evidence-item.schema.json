@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/evidence-item.schema.json",
+  "title": "EvidenceItem",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "evidence_id": { "type": "string", "minLength": 1 },
+    "source_class": {
+      "type": "string",
+      "enum": [
+        "public_x_profile",
+        "public_x_post",
+        "public_web_link",
+        "human_supplied_public_capture"
+      ]
+    },
+    "source_reference": { "type": "string", "minLength": 1 },
+    "observed_text_excerpt": { "type": "string", "minLength": 1 },
+    "observed_at": { "type": "string" },
+    "evidence_class": {
+      "type": "string",
+      "enum": ["observed_public_signal", "reasonable_inference", "unknown"]
+    }
+  },
+  "required": [
+    "evidence_id",
+    "source_class",
+    "source_reference",
+    "observed_text_excerpt",
+    "evidence_class"
+  ]
+}
