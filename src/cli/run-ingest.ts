@@ -1,54 +1,73 @@
-import path from 'node:path';
 import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 import { runFromAgentPayloads } from '../orchestration/run-from-agent-payloads.js';
 import type { OutputLanguagePolicy, ScoringConfig } from '../index.js';
+import type { ProfessionalReportContract } from '../types/artifacts.js';
 
 function getArg(flag: string): string | undefined {
   const index = process.argv.indexOf(flag);
-  if (index === -1) return undefined;
+  if (index === -1) {
+    return undefined;
+  }
+
   return process.argv[index + 1];
 }
 
 function getArgs(flag: string): string[] {
   const values: string[] = [];
+
   for (let index = 0; index < process.argv.length; index += 1) {
     if (process.argv[index] === flag) {
-      const next = process.argv[index + 1];
-      if (next) values.push(next);
+      const value = process.argv[index + 1];
+      if (value) {
+        values.push(value);
+      }
     }
   }
+
   return values;
 }
 
-async function readJson<T>(filePath: string): Promise<T> {
-  const raw = await readFile(filePath, 'utf8');
+async function readJsonFile<T>(filePath: string): Promise<T> {
+  const raw = await readFile(path.resolve(filePath), 'utf8');
   return JSON.parse(raw) as T;
 }
 
 async function main(): Promise<void> {
-  const runId = getArg('--run-id') ?? 'run-20260409-smse-ingest-01';
-  const createdAt = getArg('--created-at') ?? '2026-04-09T21:25:00Z';
-  const outputDir = getArg('--output-dir') ?? path.resolve('runs', runId);
+  const runId = getArg('--run-id')?.trim();
+  const createdAt = getArg('--created-at')?.trim();
   const payloadPaths = getArgs('--payload');
 
-  if (payloadPaths.length === 0) {
-    throw new Error('At least one --payload argument is required.');
+  if (!runId) {
+    throw new Error('Missing required --run-id');
   }
 
-  const scoringConfig = await readJson<ScoringConfig>(
-    path.resolve('manifests/scoring-config.default.json'),
+  if (!createdAt) {
+    throw new Error('Missing required --created-at');
+  }
+
+  if (payloadPaths.length === 0) {
+    throw new Error('At least one --payload is required');
+  }
+
+  const outputDir = path.resolve('runs', runId);
+
+  const scoringConfig = await readJsonFile<ScoringConfig>('manifests/scoring-config.default.json');
+  const outputLanguagePolicy = await readJsonFile<OutputLanguagePolicy>(
+    'manifests/output-language-policy.json',
   );
-  const outputLanguagePolicy = await readJson<OutputLanguagePolicy>(
-    path.resolve('manifests/output-language-policy.json'),
+  const professionalReportContract = await readJsonFile<ProfessionalReportContract>(
+    'manifests/professional-report-contract.json',
   );
 
   const result = await runFromAgentPayloads({
     runId,
     createdAt,
-    payloadPaths: payloadPaths.map((item) => path.resolve(item)),
+    payloadPaths,
     outputDir,
     scoringConfig,
     outputLanguagePolicy,
+    professionalReportContract,
   });
 
   console.log(
