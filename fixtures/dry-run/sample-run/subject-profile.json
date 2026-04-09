@@ -1,0 +1,24 @@
+{
+  "handle": "james_signal",
+  "profile_bio": "Systems-minded builder. Architecture, coffee, dogs, sci-fi, long-form thinking.",
+  "pinned_post_excerpt": "Still believe deep connection starts with shared curiosity and consistency.",
+  "recent_posts": [
+    "Spent the morning mapping architecture ideas with coffee and synthwave.",
+    "A good dog, a great book, and thoughtful design can fix a rough day.",
+    "The best conversations are with people who can laugh and still go deep."
+  ],
+  "interests": ["architecture", "coffee", "dogs", "sci-fi", "books"],
+  "humor_style": "dry",
+  "emotional_tone": "optimistic",
+  "relationship_signals": ["looking for something real", "values depth over noise"],
+  "cadence_summary": "steady thoughtful posting cadence",
+  "evidence_items": [
+    {
+      "evidence_id": "evidence-0001",
+      "source_class": "public_x_profile",
+      "source_reference": "https://x.com/james_signal",
+      "observed_text_excerpt": "Systems-minded builder. Architecture, coffee, dogs, sci-fi, long-form thinking.",
+      "evidence_class": "observed_public_signal"
+    }
+  ]
+}

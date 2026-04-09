@@ -32,3 +32,4 @@ export * from './artifacts/policy.js';
 export * from './artifacts/evidence-builder.js';
 export * from './artifacts/run-artifact-manifest.js';
 export * from './artifacts/review-log.js';
+export * from './orchestration/dry-runner.js';

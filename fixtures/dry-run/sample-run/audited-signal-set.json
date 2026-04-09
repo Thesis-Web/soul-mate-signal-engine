@@ -1,0 +1,41 @@
+[
+  {
+    "handle": "ada_signal",
+    "communication_style": "thoughtful",
+    "availability_signal": "available",
+    "energy_level": 7,
+    "caution_flags": [],
+    "disqualifier_flags": [],
+    "spark_indicators": [
+      "Asked followers what book changed how they think.",
+      "Posted about wanting consistent conversation, not surface chatter."
+    ],
+    "evidence_items": [
+      {
+        "evidence_id": "evidence-0201",
+        "source_class": "human_supplied_public_capture",
+        "source_reference": "operator-capture-ada-001",
+        "observed_text_excerpt": "I want consistency and curiosity, not just noise.",
+        "evidence_class": "reasonable_inference"
+      }
+    ]
+  },
+  {
+    "handle": "chaotic_latte",
+    "communication_style": "playful",
+    "availability_signal": "unclear",
+    "energy_level": 9,
+    "caution_flags": ["relationship intent remains thin"],
+    "disqualifier_flags": [],
+    "spark_indicators": ["Frequently posts open-ended questions about books and daily rituals."],
+    "evidence_items": [
+      {
+        "evidence_id": "evidence-0202",
+        "source_class": "human_supplied_public_capture",
+        "source_reference": "operator-capture-latte-001",
+        "observed_text_excerpt": "Bookstore dates are elite, but I might just mean snacks and silence.",
+        "evidence_class": "reasonable_inference"
+      }
+    ]
+  }
+]

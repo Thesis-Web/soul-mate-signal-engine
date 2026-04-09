@@ -15,6 +15,7 @@
     "lint": "npm run lint:md",
     "typecheck": "tsc --noEmit",
     "test": "vitest run tests/unit",
+    "run:dry": "tsx ./src/cli/run-dry.ts",
     "validate:json-yaml": "node ./scripts/validate-json-yaml.mjs",
     "validate:structure": "node ./scripts/validate-repo-structure.mjs",
     "validate:schemas": "node ./scripts/validate-schemas.mjs",
@@ -26,6 +27,7 @@
     "@types/node": "^22.14.1",
     "markdownlint-cli2": "^0.18.1",
     "prettier": "^3.5.3",
+    "tsx": "^4.19.2",
     "typescript": "^5.8.3",
     "vitest": "^3.1.1",
     "yaml": "^2.7.1"

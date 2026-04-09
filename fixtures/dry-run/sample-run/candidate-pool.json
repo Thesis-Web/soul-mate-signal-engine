@@ -1,0 +1,32 @@
+[
+  {
+    "handle": "ada_signal",
+    "matched_interests": ["architecture", "dogs", "sci-fi"],
+    "interest_overlap_score": 82,
+    "community_overlap_signals": ["design-twitter crossover", "shared book discussion"],
+    "evidence_items": [
+      {
+        "evidence_id": "evidence-0101",
+        "source_class": "public_x_post",
+        "source_reference": "https://x.com/ada_signal/status/100",
+        "observed_text_excerpt": "Spent my Saturday with brutalist architecture photos, my dog, and a sci-fi reread.",
+        "evidence_class": "observed_public_signal"
+      }
+    ]
+  },
+  {
+    "handle": "chaotic_latte",
+    "matched_interests": ["coffee", "books"],
+    "interest_overlap_score": 68,
+    "community_overlap_signals": ["same late-night posting cluster"],
+    "evidence_items": [
+      {
+        "evidence_id": "evidence-0102",
+        "source_class": "public_x_post",
+        "source_reference": "https://x.com/chaotic_latte/status/101",
+        "observed_text_excerpt": "Coffee, novels, and unhinged humor are a lifestyle.",
+        "evidence_class": "observed_public_signal"
+      }
+    ]
+  }
+]
