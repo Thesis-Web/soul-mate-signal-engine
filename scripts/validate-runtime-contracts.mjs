@@ -10,6 +10,7 @@ const schemaFiles = [
   'schemas/ranked-match.schema.json',
   'schemas/run-artifact-manifest.schema.json',
   'schemas/review-log.schema.json',
+  'schemas/agent-payload.schema.json',
 ];
 
 const failures = [];

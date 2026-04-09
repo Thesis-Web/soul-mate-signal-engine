@@ -1,0 +1,58 @@
+{
+  "dataset_version": "1.0.0",
+  "dataset_type": "compatibility_signal_research",
+  "agent_id": "perplexity",
+  "captured_at": "2026-04-09T21:21:00Z",
+  "subject": {
+    "handle": "james_signal",
+    "bio": "Systems-minded builder. Architecture, coffee, dogs, sci-fi, long-form thinking.",
+    "pinned_post_excerpt": "Still believe deep connection starts with shared curiosity and consistency.",
+    "recent_posts": ["The best conversations are with people who can laugh and still go deep."],
+    "interests": ["books", "coffee"],
+    "humor_style": "dry",
+    "emotional_tone": "optimistic",
+    "relationship_signals": ["values depth over noise"],
+    "cadence_summary": "steady thoughtful posting cadence",
+    "evidence": [
+      {
+        "evidence_id": "evidence-2001",
+        "source_class": "public_web_link",
+        "source_reference": "https://example.com/james-signal-note",
+        "observed_text_excerpt": "Long-form thinking, books, and careful systems design are recurring themes.",
+        "evidence_class": "observed_public_signal"
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "handle": "chaotic_latte",
+      "matched_interests": ["coffee", "books"],
+      "interest_overlap_score": 68,
+      "community_overlap_signals": ["same late-night posting cluster"],
+      "communication_style": "playful",
+      "availability_signal": "unclear",
+      "energy_level": 9,
+      "caution_flags": ["relationship intent remains thin"],
+      "disqualifier_flags": [],
+      "spark_indicators": ["Frequently posts open-ended questions about books and daily rituals."],
+      "candidate_evidence": [
+        {
+          "evidence_id": "evidence-2101",
+          "source_class": "public_web_link",
+          "source_reference": "https://example.com/chaotic-latte-roundup",
+          "observed_text_excerpt": "Coffee, novels, and unhinged humor are a lifestyle.",
+          "evidence_class": "observed_public_signal"
+        }
+      ],
+      "audit_evidence": [
+        {
+          "evidence_id": "evidence-2201",
+          "source_class": "human_supplied_public_capture",
+          "source_reference": "perplexity-capture-latte-001",
+          "observed_text_excerpt": "Bookstore dates are elite, but I might just mean snacks and silence.",
+          "evidence_class": "reasonable_inference"
+        }
+      ]
+    }
+  ]
+}

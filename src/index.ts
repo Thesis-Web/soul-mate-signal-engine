@@ -26,10 +26,13 @@ export function normalizeHandle(input: string): string {
 
 export * from './types/runtime-contract.js';
 export * from './types/artifacts.js';
+export * from './types/agent-payload.js';
 export * from './contract/scoring.js';
 export * from './contract/output-language.js';
 export * from './artifacts/policy.js';
 export * from './artifacts/evidence-builder.js';
 export * from './artifacts/run-artifact-manifest.js';
 export * from './artifacts/review-log.js';
+export * from './ingestion/normalize-agent-payload.js';
 export * from './orchestration/dry-runner.js';
+export * from './orchestration/run-from-agent-payloads.js';

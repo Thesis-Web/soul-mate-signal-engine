@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run tests/unit",
     "run:dry": "tsx ./src/cli/run-dry.ts",
+    "run:ingest": "tsx ./src/cli/run-ingest.ts",
     "validate:json-yaml": "node ./scripts/validate-json-yaml.mjs",
     "validate:structure": "node ./scripts/validate-repo-structure.mjs",
     "validate:schemas": "node ./scripts/validate-schemas.mjs",

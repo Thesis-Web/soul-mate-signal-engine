@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/agent-payload.schema.json",
+  "title": "AgentPayload",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "dataset_version": { "type": "string", "minLength": 1 },
+    "dataset_type": {
+      "type": "string",
+      "enum": ["compatibility_signal_research"]
+    },
+    "agent_id": {
+      "type": "string",
+      "enum": ["grok", "perplexity", "chatgpt"]
+    },
+    "captured_at": { "type": "string", "minLength": 1 },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "handle": { "type": "string", "minLength": 1 },
+        "bio": { "type": "string" },
+        "pinned_post_excerpt": { "type": "string" },
+        "recent_posts": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "interests": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "humor_style": {
+          "type": "string",
+          "enum": ["dry", "absurdist", "self_deprecating", "wholesome", "none"]
+        },
+        "emotional_tone": {
+          "type": "string",
+          "enum": ["optimistic", "neutral", "venting", "melancholic"]
+        },
+        "relationship_signals": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "cadence_summary": { "type": "string" },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "schemas/evidence-item.schema.json" }
+        }
+      },
+      "required": [
+        "handle",
+        "bio",
+        "pinned_post_excerpt",
+        "recent_posts",
+        "interests",
+        "humor_style",
+        "emotional_tone",
+        "relationship_signals",
+        "cadence_summary",
+        "evidence"
+      ]
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "handle": { "type": "string", "minLength": 1 },
+          "matched_interests": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "interest_overlap_score": { "type": "number", "minimum": 0, "maximum": 100 },
+          "community_overlap_signals": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "communication_style": {
+            "type": "string",
+            "enum": ["playful", "thoughtful", "debative", "supportive"]
+          },
+          "availability_signal": {
+            "type": "string",
+            "enum": ["available", "unclear", "unavailable"]
+          },
+          "energy_level": { "type": "number", "minimum": 0, "maximum": 10 },
+          "caution_flags": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "disqualifier_flags": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "spark_indicators": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "candidate_evidence": {
+            "type": "array",
+            "items": { "$ref": "schemas/evidence-item.schema.json" }
+          },
+          "audit_evidence": {
+            "type": "array",
+            "items": { "$ref": "schemas/evidence-item.schema.json" }
+          }
+        },
+        "required": [
+          "handle",
+          "matched_interests",
+          "interest_overlap_score",
+          "community_overlap_signals",
+          "communication_style",
+          "availability_signal",
+          "energy_level",
+          "caution_flags",
+          "disqualifier_flags",
+          "spark_indicators",
+          "candidate_evidence",
+          "audit_evidence"
+        ]
+      }
+    }
+  },
+  "required": [
+    "dataset_version",
+    "dataset_type",
+    "agent_id",
+    "captured_at",
+    "subject",
+    "candidates"
+  ]
+}
