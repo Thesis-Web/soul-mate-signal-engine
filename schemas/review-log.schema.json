@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/review-log.schema.json",
+  "title": "ReviewLog",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "run_id": { "type": "string", "minLength": 1 },
+    "reviewer_mode": { "type": "string", "enum": ["human_required"] },
+    "created_at": { "type": "string", "minLength": 1 },
+    "notes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "caution_summary": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "unknown_summary": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": [
+    "run_id",
+    "reviewer_mode",
+    "created_at",
+    "notes",
+    "caution_summary",
+    "unknown_summary"
+  ]
+}

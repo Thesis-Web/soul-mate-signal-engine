@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/run-artifact-manifest.schema.json",
+  "title": "RunArtifactManifest",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "run_id": { "type": "string", "minLength": 1 },
+    "run_status": { "type": "string", "enum": ["success", "failure"] },
+    "created_at": { "type": "string", "minLength": 1 },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sequence": { "type": "integer", "minimum": 0, "maximum": 99 },
+          "file_name": { "type": "string", "minLength": 1 },
+          "artifact_role": {
+            "type": "string",
+            "enum": [
+              "failure_log",
+              "subject_profile",
+              "candidate_pool",
+              "audited_signal_set",
+              "match_scorecard",
+              "output_brief",
+              "review_log",
+              "opener_pack",
+              "run_metrics"
+            ]
+          },
+          "requirement_level": {
+            "type": "string",
+            "enum": ["required", "optional", "failure_only"]
+          }
+        },
+        "required": ["sequence", "file_name", "artifact_role", "requirement_level"]
+      }
+    }
+  },
+  "required": ["run_id", "run_status", "created_at", "artifacts"]
+}

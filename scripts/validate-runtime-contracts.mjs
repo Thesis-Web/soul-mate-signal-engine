@@ -8,6 +8,8 @@ const schemaFiles = [
   'schemas/candidate-match.schema.json',
   'schemas/audited-signal.schema.json',
   'schemas/ranked-match.schema.json',
+  'schemas/run-artifact-manifest.schema.json',
+  'schemas/review-log.schema.json',
 ];
 
 const failures = [];
@@ -81,6 +83,39 @@ if (!Array.isArray(outputPolicy.banned_phrases) || outputPolicy.banned_phrases.l
 
 if (!Array.isArray(outputPolicy.allowed_phrases) || outputPolicy.allowed_phrases.length === 0) {
   failures.push('manifests/output-language-policy.json: allowed_phrases must be non-empty');
+}
+
+const artifactPolicy = JSON.parse(
+  fs.readFileSync(path.resolve('manifests/artifact-policy.json'), 'utf8'),
+);
+
+const expectedSuccessfulRequired = [
+  '01-subject-profile.json',
+  '02-candidate-pool.json',
+  '03-audited-signal-set.json',
+  '04-match-scorecard.json',
+  '05-output-brief.md',
+  '06-review-log.json',
+];
+
+const expectedSuccessfulOptional = ['07-opener-pack.json', '08-run-metrics.json'];
+
+const expectedFailureOnly = ['00-failure-log.json'];
+
+function sameArray(a, b) {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
+
+if (!sameArray(artifactPolicy.successful_run_required ?? [], expectedSuccessfulRequired)) {
+  failures.push('manifests/artifact-policy.json: successful_run_required does not match contract');
+}
+
+if (!sameArray(artifactPolicy.successful_run_optional ?? [], expectedSuccessfulOptional)) {
+  failures.push('manifests/artifact-policy.json: successful_run_optional does not match contract');
+}
+
+if (!sameArray(artifactPolicy.failure_only ?? [], expectedFailureOnly)) {
+  failures.push('manifests/artifact-policy.json: failure_only does not match contract');
 }
 
 if (failures.length > 0) {
