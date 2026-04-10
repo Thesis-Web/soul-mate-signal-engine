@@ -2,6 +2,8 @@ import type {
   AuditedSignal,
   CandidateMatch,
   EvidenceItem,
+  GenderSignal,
+  OrientationSignal,
   RomanticFitStatus,
   SubjectProfile,
 } from './runtime-contract.js';
@@ -20,6 +22,8 @@ export interface AgentPayloadSubject {
   relationship_signals: string[];
   cadence_summary: string;
   evidence: EvidenceItem[];
+  orientation_signal?: OrientationSignal;
+  gender_signal?: GenderSignal;
 }
 
 export interface AgentPayloadCandidate {
@@ -29,6 +33,8 @@ export interface AgentPayloadCandidate {
   community_overlap_signals: string[];
   communication_style: AuditedSignal['communication_style'];
   availability_signal: AuditedSignal['availability_signal'];
+  /** Public handle of who this candidate is currently with, if unavailable. */
+  caught_by?: string;
   romantic_fit_status?: RomanticFitStatus;
   energy_level: number;
   caution_flags: string[];
@@ -36,6 +42,8 @@ export interface AgentPayloadCandidate {
   spark_indicators: string[];
   candidate_evidence: EvidenceItem[];
   audit_evidence: EvidenceItem[];
+  orientation_signal?: OrientationSignal;
+  gender_signal?: GenderSignal;
 }
 
 export interface AgentPayload {

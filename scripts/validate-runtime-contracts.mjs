@@ -56,6 +56,7 @@ const requiredWeightKeys = [
   'emotional_tone_fit',
   'community_adjacency',
   'reciprocity_probability',
+  'orientation_alignment',
 ];
 
 const scoringKeys = Object.keys(scoringConfig.weights ?? {}).sort();

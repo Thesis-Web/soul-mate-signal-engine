@@ -13,7 +13,7 @@ async function readJsonFile<T>(filePath: string): Promise<T> {
 const scoringConfig: ScoringConfig = {
   version: '0.1.0',
   weights: {
-    interest_overlap: 20,
+    interest_overlap: 9,
     humor_style_resonance: 15,
     values_alignment: 15,
     social_tempo: 10,
@@ -21,6 +21,7 @@ const scoringConfig: ScoringConfig = {
     emotional_tone_fit: 10,
     community_adjacency: 10,
     reciprocity_probability: 10,
+    orientation_alignment: 11,
   },
 };
 
@@ -93,6 +94,7 @@ describe('ingest runner', () => {
 
     const files = (await readdir(outputDir)).sort();
     expect(files).toEqual([
+      '00-debug.log',
       '01-subject-profile.json',
       '02-candidate-pool.json',
       '03-audited-signal-set.json',

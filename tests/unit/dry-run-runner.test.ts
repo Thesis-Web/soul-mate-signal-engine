@@ -8,7 +8,7 @@ import type { OutputLanguagePolicy, ScoringConfig } from '../../src/index.js';
 const scoringConfig: ScoringConfig = {
   version: '0.1.0',
   weights: {
-    interest_overlap: 20,
+    interest_overlap: 9,
     humor_style_resonance: 15,
     values_alignment: 15,
     social_tempo: 10,
@@ -16,6 +16,7 @@ const scoringConfig: ScoringConfig = {
     emotional_tone_fit: 10,
     community_adjacency: 10,
     reciprocity_probability: 10,
+    orientation_alignment: 11,
   },
 };
 
@@ -57,6 +58,7 @@ describe('dry-run runner', () => {
 
     const files = (await readdir(outputDir)).sort();
     expect(files).toEqual([
+      '00-debug.log',
       '01-subject-profile.json',
       '02-candidate-pool.json',
       '03-audited-signal-set.json',
@@ -67,7 +69,7 @@ describe('dry-run runner', () => {
     ]);
 
     const brief = await readFile(path.join(outputDir, '05-output-brief.md'), 'utf8');
-    expect(brief).toContain('Output Brief - run-20260409-smse-01');
+    expect(brief).toContain('Soul Mate Signal Engine');
     expect(brief).toContain('@ada_signal');
   });
 });

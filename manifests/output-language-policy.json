@@ -1,19 +1,26 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "banned_phrases": [
     "soulmate confirmed",
     "perfect match",
     "guaranteed fit",
     "destined",
     "definitely single",
-    "love certainty"
+    "love certainty",
+    "you will fall in love"
   ],
   "allowed_phrases": [
+    "vibe overlap",
+    "probable match",
     "signal-based match",
-    "probable overlap",
     "advisory fit",
     "possible conversation match",
     "evidence-backed resonance",
-    "requires human judgment"
+    "catch and release",
+    "swimming free",
+    "caught already",
+    "pond looks open",
+    "sparks detected",
+    "requires your own good judgment"
   ]
 }

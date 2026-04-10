@@ -56,6 +56,7 @@ const rankedMatches: RankedMatch[] = [
       emotional_tone_fit: 76,
       community_adjacency: 65,
       reciprocity_probability: 71,
+      orientation_alignment: 11,
     },
     evidence_strength: 85,
     recency_strength: 80,
@@ -64,6 +65,8 @@ const rankedMatches: RankedMatch[] = [
       'Signal-based match with probable overlap in space exploration and artificial intelligence. Requires human judgment.',
     opener_suggestion:
       'Your post about space exploration caught my eye - what pulled you into that space?',
+    availability_signal: 'available',
+    pond_status: '🐟 Swimming free — pond looks open!',
     source_links: ['https://x.com/candidate_one/status/1'],
   },
 ];
