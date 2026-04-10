@@ -36,14 +36,14 @@ async function main(): Promise<void> {
 
   const grokInstructions = await readTemplate('prompts/acquisition/grok.instructions-v0.1.0.md');
   const grokPrompt = renderTemplate(
-    await readTemplate('prompts/acquisition/grok.subject-prompt-v0.1.0.md'),
+    await readTemplate('prompts/acquisition/grok.subject-prompt-v0.2.0.md'),
     replacements,
   );
   const perplexityInstructions = await readTemplate(
     'prompts/acquisition/perplexity.instructions-v0.1.0.md',
   );
   const perplexityPrompt = renderTemplate(
-    await readTemplate('prompts/acquisition/perplexity.subject-prompt-v0.1.0.md'),
+    await readTemplate('prompts/acquisition/perplexity.subject-prompt-v0.2.0.md'),
     replacements,
   );
 

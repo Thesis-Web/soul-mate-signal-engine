@@ -88,7 +88,7 @@ export function normalizeAgentPayloads(
       candidate_evidence: (typeof first.candidates)[number]['candidate_evidence'];
       communication_style: (typeof first.candidates)[number]['communication_style'];
       availability_signal: (typeof first.candidates)[number]['availability_signal'];
-      caught_by?: string;
+      caught_by?: string | undefined;
       romantic_fit_statuses: RomanticFitStatus[];
       energy_levels: number[];
       caution_flags: string[];

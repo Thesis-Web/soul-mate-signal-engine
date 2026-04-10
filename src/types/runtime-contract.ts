@@ -74,7 +74,7 @@ export interface AuditedSignal {
   communication_style: CommunicationStyle;
   availability_signal: AvailabilitySignal;
   /** Public handle of person this candidate is known to be with, if unavailable. */
-  caught_by?: string;
+  caught_by?: string | undefined;
   romantic_fit_status: RomanticFitStatus;
   energy_level: number;
   caution_flags: string[];
