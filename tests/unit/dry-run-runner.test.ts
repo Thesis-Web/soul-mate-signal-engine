@@ -67,7 +67,7 @@ describe('dry-run runner', () => {
     ]);
 
     const brief = await readFile(path.join(outputDir, '05-output-brief.md'), 'utf8');
-    expect(brief).toContain('Output Brief — run-20260409-smse-01');
+    expect(brief).toContain('Output Brief - run-20260409-smse-01');
     expect(brief).toContain('@ada_signal');
   });
 });

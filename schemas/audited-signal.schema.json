@@ -5,7 +5,10 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "handle": { "type": "string", "minLength": 1 },
+    "handle": {
+      "type": "string",
+      "minLength": 1
+    },
     "communication_style": {
       "type": "string",
       "enum": ["playful", "thoughtful", "debative", "supportive"]
@@ -14,28 +17,45 @@
       "type": "string",
       "enum": ["available", "unclear", "unavailable"]
     },
-    "energy_level": { "type": "number", "minimum": 0, "maximum": 10 },
+    "romantic_fit_status": {
+      "type": "string",
+      "enum": ["aligned", "unknown", "not_aligned"]
+    },
+    "energy_level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10
+    },
     "caution_flags": {
       "type": "array",
-      "items": { "type": "string" }
+      "items": {
+        "type": "string"
+      }
     },
     "disqualifier_flags": {
       "type": "array",
-      "items": { "type": "string" }
+      "items": {
+        "type": "string"
+      }
     },
     "spark_indicators": {
       "type": "array",
-      "items": { "type": "string" }
+      "items": {
+        "type": "string"
+      }
     },
     "evidence_items": {
       "type": "array",
-      "items": { "$ref": "schemas/evidence-item.schema.json" }
+      "items": {
+        "$ref": "schemas/evidence-item.schema.json"
+      }
     }
   },
   "required": [
     "handle",
     "communication_style",
     "availability_signal",
+    "romantic_fit_status",
     "energy_level",
     "caution_flags",
     "disqualifier_flags",

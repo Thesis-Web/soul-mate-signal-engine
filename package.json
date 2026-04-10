@@ -14,7 +14,7 @@
     "lint:md": "markdownlint-cli2 \"README.md\" \"docs/**/*.md\" \"prompts/**/*.md\" \"schemas/**/*.md\" \"templates/**/*.md\" \"!node_modules/**\" \"!logs/**\" \"!runs/**\" \"!outputs/**\" \"!.git/**\"",
     "lint": "npm run lint:md",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run tests/unit",
+    "test": "vitest run tests/unit --pool=threads --maxWorkers=1",
     "run:dry": "tsx ./src/cli/run-dry.ts",
     "run:ingest": "tsx ./src/cli/run-ingest.ts",
     "validate:json-yaml": "node ./scripts/validate-json-yaml.mjs",

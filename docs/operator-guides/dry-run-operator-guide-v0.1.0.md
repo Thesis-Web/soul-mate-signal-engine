@@ -1,56 +1,41 @@
 # Dry Run Operator Guide
 
-version: 0.1.0
-status: draft
+## Operator-first flow
 
-## 1. Purpose
+1. Drop the repository zip.
+2. Run `npm run run:prepare` with no arguments.
+3. The engine responds with the kickoff question: `Ok, I have loaded the engine. Who is our subject today?`
+4. Supply the subject name or X handle.
+5. Optionally provide explicit operator context if you already know the romantic-fit boundary, for example `interested in women`, `interested in men`, `open to any gender`, or `unknown`.
+6. Send the generated Grok and Perplexity payloads back into the engine.
+7. Run ingest and review the JSON, Markdown, and PDF artifacts.
 
-This guide describes how to operate the engine before direct live retrieval is wired into the runtime.
+## Important boundary
 
-## 2. Operator Model
+The engine does not run a "gaydar" and does not infer sexual orientation or attraction preference from ambiguity.
+It uses explicit operator context or explicit recent public self-description only.
+Anything else stays `romantic_fit_status: unknown`.
 
-The human operator supplies public live-signal material from external tools.
-The engine normalizes, audits, scores, and emits review artifacts.
+## Prepare examples
 
-## 3. Allowed Operator Inputs
+Kickoff only:
 
-Allowed:
+    npm run run:prepare
 
-- subject handle
-- subject URL
-- public post excerpts
-- public profile excerpts
-- public linked material
-- candidate lists with source links
+Subject and explicit operator context:
 
-Not allowed:
+    npm run run:prepare -- --subject "Jane Doe" --operator-context "subject is interested in men"
 
-- private messages
-- private screenshots from locked accounts
-- personal data broker dumps
-- hidden or non-public sources
+## Ingest example
 
-## 4. Recommended Dry-Run Sequence
+    npm run run:ingest --       --run-id run-20260410-jane-live-01       --created-at 2026-04-10T02:00:00Z       --payload path/to/grok.json       --payload path/to/perplexity.json
 
-1. run `npm run run:prepare` to get the kickoff prompt
-2. run `npm run run:prepare -- --subject "<subject>"` to emit Grok and Perplexity instructions plus prompts
-3. paste the versioned instructions into the external tool once and wait for `acknowledged`
-4. paste the subject-specific prompt into each external tool
-5. collect the returned JSON payloads without editing field names
-6. run `npm run run:ingest` with the payload paths
-7. review cautions, unknowns, and the professional report
-8. decide whether a new corroboration pass is required
+## Report outputs
 
-## 5. Required Operator Discipline
+The ingest path emits:
 
-The operator should preserve:
+- professional report JSON
+- professional report Markdown
+- professional report PDF
 
-- original handle
-- source link
-- capture time
-- exact excerpt when possible
-- whether the item is observed signal or inference
-
-## 6. Output Reminder
-
-The output is advisory only and requires human judgment.
+The PDF is the user-facing deliverable.

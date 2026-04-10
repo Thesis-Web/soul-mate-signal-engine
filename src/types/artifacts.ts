@@ -14,6 +14,7 @@ export const successfulRunOptionalArtifacts = [
   '08-run-metrics.json',
   '09-professional-report.json',
   '10-professional-report.md',
+  '11-professional-report.pdf',
 ] as const;
 
 export const failureOnlyArtifacts = ['00-failure-log.json'] as const;
@@ -38,7 +39,8 @@ export type ArtifactRole =
   | 'opener_pack'
   | 'run_metrics'
   | 'professional_report_contract'
-  | 'professional_report_document';
+  | 'professional_report_document'
+  | 'professional_report_pdf';
 
 export type ArtifactRequirementLevel = 'required' | 'optional' | 'failure_only';
 export type RunStatus = 'success' | 'failure';

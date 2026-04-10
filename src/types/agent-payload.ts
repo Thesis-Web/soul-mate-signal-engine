@@ -2,6 +2,7 @@ import type {
   AuditedSignal,
   CandidateMatch,
   EvidenceItem,
+  RomanticFitStatus,
   SubjectProfile,
 } from './runtime-contract.js';
 
@@ -28,6 +29,7 @@ export interface AgentPayloadCandidate {
   community_overlap_signals: string[];
   communication_style: AuditedSignal['communication_style'];
   availability_signal: AuditedSignal['availability_signal'];
+  romantic_fit_status?: RomanticFitStatus;
   energy_level: number;
   caution_flags: string[];
   disqualifier_flags: string[];

@@ -52,7 +52,8 @@
           "observed_text_excerpt": "Bookstore dates are elite, but I might just mean snacks and silence.",
           "evidence_class": "reasonable_inference"
         }
-      ]
+      ],
+      "romantic_fit_status": "unknown"
     }
   ]
 }

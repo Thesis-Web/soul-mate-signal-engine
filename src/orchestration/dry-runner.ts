@@ -43,10 +43,13 @@ function mapValuesAlignment(candidate: CandidateMatch, signal: AuditedSignal): n
 function mapRelationshipCompatibility(subject: SubjectProfile, signal: AuditedSignal): number {
   const subjectHasIntent = subject.relationship_signals.length > 0;
 
-  if (!subjectHasIntent) return 50;
-  if (signal.availability_signal === 'available') return 80;
-  if (signal.availability_signal === 'unclear') return 52;
-  return 0;
+  if (!subjectHasIntent) return 40;
+  if (signal.romantic_fit_status === 'not_aligned') return 0;
+  if (signal.romantic_fit_status === 'aligned' && signal.availability_signal === 'available')
+    return 84;
+  if (signal.romantic_fit_status === 'aligned' && signal.availability_signal === 'unclear')
+    return 58;
+  return 34;
 }
 
 function mapEmotionalToneFit(subject: SubjectProfile, signal: AuditedSignal): number {
@@ -67,8 +70,13 @@ function mapCommunityAdjacency(candidate: CandidateMatch): number {
 
 function mapReciprocityProbability(signal: AuditedSignal): number {
   const sparkBonus = signal.spark_indicators.length * 8;
-  if (signal.availability_signal === 'available') return clampScore(55 + sparkBonus);
-  if (signal.availability_signal === 'unclear') return clampScore(40 + sparkBonus);
+  if (signal.romantic_fit_status === 'not_aligned') return 0;
+  if (signal.romantic_fit_status === 'aligned' && signal.availability_signal === 'available')
+    return clampScore(58 + sparkBonus);
+  if (signal.romantic_fit_status === 'aligned' && signal.availability_signal === 'unclear')
+    return clampScore(42 + sparkBonus);
+  if (signal.availability_signal === 'available') return clampScore(42 + sparkBonus);
+  if (signal.availability_signal === 'unclear') return clampScore(28 + sparkBonus);
   return 0;
 }
 
@@ -84,10 +92,20 @@ function mapRecencyStrength(candidate: CandidateMatch, signal: AuditedSignal): n
 }
 
 function mapCautionBand(signal: AuditedSignal): RankedMatch['caution_band'] {
-  if (signal.disqualifier_flags.length > 0 || signal.availability_signal === 'unavailable')
+  if (
+    signal.disqualifier_flags.length > 0 ||
+    signal.availability_signal === 'unavailable' ||
+    signal.romantic_fit_status === 'not_aligned'
+  ) {
     return 'high';
-  if (signal.caution_flags.length > 0 || signal.availability_signal === 'unclear')
+  }
+  if (
+    signal.caution_flags.length > 0 ||
+    signal.availability_signal === 'unclear' ||
+    signal.romantic_fit_status === 'unknown'
+  ) {
     return 'moderate';
+  }
   return 'low';
 }
 
@@ -97,13 +115,16 @@ function buildExplanation(
   signal: AuditedSignal,
 ): string {
   const interests = candidate.matched_interests.slice(0, 3).join(', ');
-  const text = `Signal-based match with probable overlap in ${interests}. Communication appears ${signal.communication_style} and the subject cadence looks compatible with ${subject.cadence_summary}. Requires human judgment.`;
-  return text;
+  const romanticFitClause =
+    signal.romantic_fit_status === 'aligned'
+      ? 'Romantic fit has some explicit evidence support.'
+      : 'Romantic fit remains unverified and should not be inferred.';
+  return `Signal-based romantic match with probable overlap in ${interests}. Communication appears ${signal.communication_style} and the subject cadence looks compatible with ${subject.cadence_summary}. ${romanticFitClause} Requires human judgment.`;
 }
 
 function buildOpener(candidate: CandidateMatch): string {
   const topInterest = candidate.matched_interests[0] ?? 'your recent post';
-  return `Your post about ${topInterest} caught my eye — what pulled you into that space?`;
+  return `Your post about ${topInterest} caught my eye - what pulled you into that space?`;
 }
 
 function buildDimensionScores(
@@ -129,7 +150,7 @@ function buildOutputBrief(input: {
   rankedMatches: RankedMatch[];
 }): string {
   const lines = [
-    `# Output Brief — ${input.runId}`,
+    `# Output Brief - ${input.runId}`,
     '',
     `Subject: @${input.subjectProfile.handle}`,
     '',
@@ -143,7 +164,7 @@ function buildOutputBrief(input: {
   }
 
   for (const match of input.rankedMatches) {
-    lines.push(`### ${match.rank}. @${match.handle} — ${match.compatibility_score}`);
+    lines.push(`### ${match.rank}. @${match.handle} - ${match.compatibility_score}`);
     lines.push('');
     lines.push(`- Caution band: ${match.caution_band}`);
     lines.push(`- Evidence strength: ${match.evidence_strength}`);
@@ -192,12 +213,17 @@ export async function runDryRunFromFixtures(input: {
         return null;
       }
 
-      if (signal.disqualifier_flags.length > 0 || signal.availability_signal === 'unavailable') {
+      if (
+        signal.disqualifier_flags.length > 0 ||
+        signal.availability_signal === 'unavailable' ||
+        signal.romantic_fit_status === 'not_aligned'
+      ) {
         return null;
       }
 
       const dimensionScores = buildDimensionScores(subjectProfile, candidate, signal);
-      const uncertaintyPenalty = signal.caution_flags.length > 0 ? 6 : 3;
+      const uncertaintyPenalty =
+        signal.caution_flags.length > 0 || signal.romantic_fit_status === 'unknown' ? 6 : 3;
       const compatibilityScore = computeWeightedScore(
         dimensionScores,
         input.scoringConfig,
@@ -226,7 +252,7 @@ export async function runDryRunFromFixtures(input: {
         caution_band: cautionBand,
         explanation,
         opener_suggestion: openerSuggestion,
-        source_links: sourceLinks,
+        source_links: [...new Set(sourceLinks)],
       };
     })
     .filter((item): item is Omit<RankedMatch, 'rank'> => item !== null)
@@ -243,7 +269,10 @@ export async function runDryRunFromFixtures(input: {
     caution_summary: rankedMatches
       .filter((item) => item.caution_band !== 'low')
       .map((item) => `@${item.handle}: caution band ${item.caution_band}`),
-    unknown_summary: ['Relationship certainty remains out of scope; outputs are advisory only.'],
+    unknown_summary: [
+      'Relationship certainty remains out of scope; outputs are advisory only.',
+      'The engine does not infer attraction preference or orientation from ambiguity.',
+    ],
   });
 
   const artifactManifest = buildRunArtifactManifest({

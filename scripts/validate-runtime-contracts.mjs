@@ -105,6 +105,7 @@ const expectedSuccessfulOptional = [
   '08-run-metrics.json',
   '09-professional-report.json',
   '10-professional-report.md',
+  '11-professional-report.pdf',
 ];
 
 const expectedFailureOnly = ['00-failure-log.json'];

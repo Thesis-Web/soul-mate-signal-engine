@@ -20,6 +20,8 @@ const requiredPaths = [
   'docs/engineering-specs',
   'docs/operator-guides',
   'docs/project-constitution',
+  'docs/change-logs',
+  'docs/change-logs/romantic-fit-and-pdf-update-v0.1.0.md',
   'prompts',
   'prompts/acquisition/grok.instructions-v0.1.0.md',
   'prompts/acquisition/grok.subject-prompt-v0.1.0.md',
@@ -59,6 +61,7 @@ const requiredPaths = [
   'fixtures/agent-input/sample-payloads/grok-sample.json',
   'fixtures/agent-input/sample-payloads/perplexity-sample.json',
   'scripts',
+  'scripts/render-professional-report-pdf.py',
   'scripts/validate-runtime-contracts.mjs',
   'src',
   'src/types',
@@ -75,6 +78,7 @@ const requiredPaths = [
   'src/artifacts/policy.ts',
   'src/artifacts/evidence-builder.ts',
   'src/artifacts/professional-report.ts',
+  'src/artifacts/professional-report-pdf.ts',
   'src/artifacts/run-artifact-manifest.ts',
   'src/artifacts/review-log.ts',
   'src/cli/run-dry.ts',
@@ -89,6 +93,7 @@ const requiredPaths = [
   'tests/unit/agent-payload-normalizer.test.ts',
   'tests/unit/ingest-runner.test.ts',
   'tests/unit/professional-report.test.ts',
+  'tests/unit/run-artifact-manifest.test.ts',
 ];
 
 const missing = requiredPaths.filter((item) => !fs.existsSync(path.resolve(item)));

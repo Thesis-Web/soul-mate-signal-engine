@@ -5,7 +5,10 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "dataset_version": { "type": "string", "minLength": 1 },
+    "dataset_version": {
+      "type": "string",
+      "minLength": 1
+    },
     "dataset_type": {
       "type": "string",
       "enum": ["compatibility_signal_research"]
@@ -14,21 +17,35 @@
       "type": "string",
       "enum": ["grok", "perplexity", "chatgpt"]
     },
-    "captured_at": { "type": "string", "minLength": 1 },
+    "captured_at": {
+      "type": "string",
+      "minLength": 1
+    },
     "subject": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "handle": { "type": "string", "minLength": 1 },
-        "bio": { "type": "string" },
-        "pinned_post_excerpt": { "type": "string" },
+        "handle": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bio": {
+          "type": "string"
+        },
+        "pinned_post_excerpt": {
+          "type": "string"
+        },
         "recent_posts": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "interests": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "humor_style": {
           "type": "string",
@@ -40,12 +57,18 @@
         },
         "relationship_signals": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "cadence_summary": { "type": "string" },
+        "cadence_summary": {
+          "type": "string"
+        },
         "evidence": {
           "type": "array",
-          "items": { "$ref": "schemas/evidence-item.schema.json" }
+          "items": {
+            "$ref": "schemas/evidence-item.schema.json"
+          }
         }
       },
       "required": [
@@ -67,15 +90,26 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "handle": { "type": "string", "minLength": 1 },
+          "handle": {
+            "type": "string",
+            "minLength": 1
+          },
           "matched_interests": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
-          "interest_overlap_score": { "type": "number", "minimum": 0, "maximum": 100 },
+          "interest_overlap_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
           "community_overlap_signals": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "communication_style": {
             "type": "string",
@@ -85,26 +119,44 @@
             "type": "string",
             "enum": ["available", "unclear", "unavailable"]
           },
-          "energy_level": { "type": "number", "minimum": 0, "maximum": 10 },
+          "energy_level": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10
+          },
           "caution_flags": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "disqualifier_flags": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "spark_indicators": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "candidate_evidence": {
             "type": "array",
-            "items": { "$ref": "schemas/evidence-item.schema.json" }
+            "items": {
+              "$ref": "schemas/evidence-item.schema.json"
+            }
           },
           "audit_evidence": {
             "type": "array",
-            "items": { "$ref": "schemas/evidence-item.schema.json" }
+            "items": {
+              "$ref": "schemas/evidence-item.schema.json"
+            }
+          },
+          "romantic_fit_status": {
+            "type": "string",
+            "enum": ["aligned", "unknown", "not_aligned"]
           }
         },
         "required": [

@@ -9,20 +9,20 @@ const grokPayload: AgentPayload = {
   captured_at: '2026-04-09T21:20:00Z',
   subject: {
     handle: 'james_signal',
-    bio: 'Systems-minded builder.',
-    pinned_post_excerpt: 'Shared curiosity matters.',
-    recent_posts: ['architecture and coffee'],
+    bio: 'Builder.',
+    pinned_post_excerpt: 'Still believe deep connection starts with shared curiosity.',
+    recent_posts: ['architecture', 'coffee'],
     interests: ['architecture', 'coffee'],
     humor_style: 'dry',
     emotional_tone: 'optimistic',
     relationship_signals: ['looking for something real'],
-    cadence_summary: 'steady thoughtful posting cadence',
+    cadence_summary: 'steady',
     evidence: [
       {
         evidence_id: 'evidence-1001',
         source_class: 'public_x_profile',
         source_reference: 'https://x.com/james_signal',
-        observed_text_excerpt: 'Systems-minded builder.',
+        observed_text_excerpt: 'Builder.',
         evidence_class: 'observed_public_signal',
       },
     ],
@@ -30,21 +30,22 @@ const grokPayload: AgentPayload = {
   candidates: [
     {
       handle: 'ada_signal',
-      matched_interests: ['architecture'],
+      matched_interests: ['architecture', 'dogs'],
       interest_overlap_score: 80,
-      community_overlap_signals: ['design-twitter crossover'],
+      community_overlap_signals: ['design crossover'],
       communication_style: 'thoughtful',
       availability_signal: 'available',
+      romantic_fit_status: 'aligned',
       energy_level: 7,
       caution_flags: [],
       disqualifier_flags: [],
-      spark_indicators: ['book question'],
+      spark_indicators: ['asks deep questions'],
       candidate_evidence: [
         {
           evidence_id: 'evidence-1101',
           source_class: 'public_x_post',
           source_reference: 'https://x.com/ada_signal/status/100',
-          observed_text_excerpt: 'Brutalist architecture photos.',
+          observed_text_excerpt: 'Architecture photos and dogs.',
           evidence_class: 'observed_public_signal',
         },
       ],
@@ -53,7 +54,7 @@ const grokPayload: AgentPayload = {
           evidence_id: 'evidence-1201',
           source_class: 'human_supplied_public_capture',
           source_reference: 'grok-capture-ada-001',
-          observed_text_excerpt: 'Consistency and curiosity.',
+          observed_text_excerpt: 'Consistency and curiosity matter.',
           evidence_class: 'reasonable_inference',
         },
       ],
@@ -67,15 +68,15 @@ const perplexityPayload: AgentPayload = {
   agent_id: 'perplexity',
   captured_at: '2026-04-09T21:21:00Z',
   subject: {
-    handle: '@james_signal',
-    bio: 'Systems-minded builder.',
-    pinned_post_excerpt: 'Shared curiosity matters.',
-    recent_posts: ['books and dogs'],
+    handle: 'james_signal',
+    bio: 'Builder.',
+    pinned_post_excerpt: 'Still believe deep connection starts with shared curiosity.',
+    recent_posts: ['books'],
     interests: ['books', 'dogs'],
     humor_style: 'dry',
     emotional_tone: 'optimistic',
-    relationship_signals: ['values depth over noise'],
-    cadence_summary: 'steady thoughtful posting cadence',
+    relationship_signals: ['values depth'],
+    cadence_summary: 'steady',
     evidence: [
       {
         evidence_id: 'evidence-2001',
@@ -94,6 +95,7 @@ const perplexityPayload: AgentPayload = {
       community_overlap_signals: ['shared book discussion'],
       communication_style: 'thoughtful',
       availability_signal: 'available',
+      romantic_fit_status: 'unknown',
       energy_level: 8,
       caution_flags: [],
       disqualifier_flags: [],
@@ -129,6 +131,7 @@ describe('agent payload normalizer', () => {
     expect(result.candidate_pool).toHaveLength(1);
     expect(result.candidate_pool[0]?.interest_overlap_score).toBe(75);
     expect(result.audited_signal_set[0]?.energy_level).toBe(7.5);
+    expect(result.audited_signal_set[0]?.romantic_fit_status).toBe('aligned');
   });
 
   it('rejects mismatched subject handles', () => {

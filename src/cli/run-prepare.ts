@@ -11,12 +11,17 @@ async function readTemplate(relativePath: string): Promise<string> {
   return readFile(path.resolve(relativePath), 'utf8');
 }
 
-function renderTemplate(template: string, subject: string): string {
-  return template.replaceAll('{{SUBJECT}}', subject.trim());
+function renderTemplate(template: string, replacements: Record<string, string>): string {
+  return Object.entries(replacements).reduce((output, [key, value]) => {
+    return output.replaceAll(`{{${key}}}`, value.trim());
+  }, template);
 }
 
 async function main(): Promise<void> {
   const subject = getArg('--subject')?.trim();
+  const operatorContext =
+    getArg('--operator-context')?.trim() ??
+    'none supplied; do not infer attraction preference, orientation, or gender preference';
 
   if (!subject) {
     const kickoff = await readTemplate('prompts/output/operator-kickoff-v0.1.0.md');
@@ -24,25 +29,34 @@ async function main(): Promise<void> {
     return;
   }
 
+  const replacements = {
+    SUBJECT: subject,
+    OPERATOR_CONTEXT: operatorContext,
+  };
+
   const grokInstructions = await readTemplate('prompts/acquisition/grok.instructions-v0.1.0.md');
   const grokPrompt = renderTemplate(
     await readTemplate('prompts/acquisition/grok.subject-prompt-v0.1.0.md'),
-    subject,
+    replacements,
   );
   const perplexityInstructions = await readTemplate(
     'prompts/acquisition/perplexity.instructions-v0.1.0.md',
   );
   const perplexityPrompt = renderTemplate(
     await readTemplate('prompts/acquisition/perplexity.subject-prompt-v0.1.0.md'),
-    subject,
+    replacements,
   );
 
   const output = [
-    `# Live Run Prep — ${subject}`,
+    `# Live Run Prep - ${subject}`,
     '',
     '## Operator Kickoff',
     '',
     'Ok, I have loaded the engine. Who is our subject today?',
+    '',
+    '## Operator Romantic Context',
+    '',
+    operatorContext,
     '',
     '## Grok Instructions',
     '',

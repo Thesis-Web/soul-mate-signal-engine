@@ -15,11 +15,11 @@ function buildExecutiveSummary(subject: SubjectProfile, rankedMatches: RankedMat
   const topMatch = rankedMatches[0];
 
   if (!topMatch) {
-    return `Signal-based run for @${subject.handle} completed with no candidates surviving the current ingest and review filters. Requires human judgment.`;
+    return `Signal-based romantic-compatibility run for @${subject.handle} completed with no candidates surviving the current ingest and review filters. Requires human judgment.`;
   }
 
   return normalizeLine(
-    `Signal-based run for @${subject.handle} completed with ${rankedMatches.length} ranked candidate(s). ` +
+    `Signal-based romantic-compatibility run for @${subject.handle} completed with ${rankedMatches.length} ranked candidate(s). ` +
       `Top candidate @${topMatch.handle} scored ${topMatch.compatibility_score} with a ${topMatch.caution_band} caution band. ` +
       `This remains an advisory fit and requires human judgment.`,
   );
@@ -31,7 +31,8 @@ function buildSubjectSignalSummary(subject: SubjectProfile): string {
   return normalizeLine(
     `Observed public-signal themes for @${subject.handle} include ${interests}. ` +
       `Humor style was normalized as ${subject.humor_style}, emotional tone as ${subject.emotional_tone}, ` +
-      `and cadence as ${subject.cadence_summary || 'not yet richly described'}.`,
+      `and cadence as ${subject.cadence_summary || 'not yet richly described'}. ` +
+      `Romantic-fit gating uses explicit operator context or explicit public self-description only.`,
   );
 }
 
@@ -40,13 +41,13 @@ function buildNextActions(rankedMatches: RankedMatch[]): string[] {
     return [
       'Collect another acquisition pass with stronger public candidate evidence.',
       'Review subject evidence for stale or contradictory signals before re-running.',
-      'Do not infer relationship status without stronger public support.',
+      'Do not infer attraction preference or orientation without explicit operator or public evidence.',
     ];
   }
 
   return [
     'Review the top three ranked candidates for stale, contradictory, or media-distorted evidence.',
-    'Use the opener pack only after a human reviews availability and caution flags.',
+    'Use the opener pack only after a human reviews availability, romantic fit, and caution flags.',
     'If cross-tool disagreement remains high, collect a fresh corroboration pass before outreach.',
   ];
 }
@@ -100,13 +101,13 @@ export function buildProfessionalReport(input: {
     ],
     operator_next_actions: buildNextActions(input.ranked_matches),
     advisory_boundary:
-      'This output is advisory only, based on public signals, and must not be treated as certainty about compatibility, availability, or relationship truth.',
+      'This output is advisory only, based on public signals, and must not be treated as certainty about compatibility, availability, attraction preference, orientation, or relationship truth.',
   };
 }
 
 export function renderProfessionalReportMarkdown(report: ProfessionalReport): string {
   const lines = [
-    `# Professional Run Report — ${report.run_id}`,
+    `# Professional Run Report - ${report.run_id}`,
     '',
     `Subject: @${report.subject_handle}`,
     `Created at: ${report.created_at}`,
@@ -131,7 +132,7 @@ export function renderProfessionalReportMarkdown(report: ProfessionalReport): st
   } else {
     for (const candidate of report.ranked_candidates) {
       lines.push(
-        `### ${candidate.rank}. @${candidate.handle} — ${candidate.compatibility_score} (${candidate.caution_band})`,
+        `### ${candidate.rank}. @${candidate.handle} - ${candidate.compatibility_score} (${candidate.caution_band})`,
       );
       lines.push('');
       lines.push(`- Explanation: ${candidate.explanation}`);

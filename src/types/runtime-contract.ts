@@ -29,6 +29,8 @@ export type CommunicationStyle = 'playful' | 'thoughtful' | 'debative' | 'suppor
 
 export type AvailabilitySignal = 'available' | 'unclear' | 'unavailable';
 
+export type RomanticFitStatus = 'aligned' | 'unknown' | 'not_aligned';
+
 export type CautionBand = 'low' | 'moderate' | 'high';
 
 export interface SubjectInput {
@@ -71,6 +73,7 @@ export interface AuditedSignal {
   handle: string;
   communication_style: CommunicationStyle;
   availability_signal: AvailabilitySignal;
+  romantic_fit_status: RomanticFitStatus;
   energy_level: number;
   caution_flags: string[];
   disqualifier_flags: string[];

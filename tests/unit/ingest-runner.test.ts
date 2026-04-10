@@ -1,10 +1,14 @@
-import { mkdtemp, readdir, readFile } from 'node:fs/promises';
+import { mkdtemp, readFile, readdir, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { runFromAgentPayloads } from '../../src/orchestration/run-from-agent-payloads.js';
-import type { OutputLanguagePolicy, ScoringConfig } from '../../src/index.js';
 import type { ProfessionalReportContract } from '../../src/types/artifacts.js';
+import type { OutputLanguagePolicy, ScoringConfig } from '../../src/index.js';
+
+async function readJsonFile<T>(filePath: string): Promise<T> {
+  return JSON.parse(await readFile(filePath, 'utf8')) as T;
+}
 
 const scoringConfig: ScoringConfig = {
   version: '0.1.0',
@@ -56,17 +60,29 @@ const professionalReportContract: ProfessionalReportContract = {
 };
 
 describe('ingest runner', () => {
-  it('emits deterministic artifacts from agent payloads', async () => {
+  it('normalizes agent payloads and emits ingest artifacts including PDF report', async () => {
     const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'smse-ingest-'));
-    const outputDir = path.join(tempRoot, 'run-20260409-smse-ingest-01');
+    const outputDir = path.join(tempRoot, 'run-20260410-james-live-01');
+    const payloadDir = path.join(tempRoot, 'payloads');
+
+    const grokPayload = await readJsonFile('fixtures/agent-input/sample-payloads/grok-sample.json');
+    const perplexityPayload = await readJsonFile(
+      'fixtures/agent-input/sample-payloads/perplexity-sample.json',
+    );
+
+    await writeFile(
+      path.join(payloadDir, '../grok.json').replace('/payloads/../', '/'),
+      JSON.stringify(grokPayload, null, 2),
+    );
+    await writeFile(
+      path.join(payloadDir, '../perplexity.json').replace('/payloads/../', '/'),
+      JSON.stringify(perplexityPayload, null, 2),
+    );
 
     const result = await runFromAgentPayloads({
-      runId: 'run-20260409-smse-ingest-01',
-      createdAt: '2026-04-09T21:25:00Z',
-      payloadPaths: [
-        path.resolve('fixtures/agent-input/sample-payloads/grok-sample.json'),
-        path.resolve('fixtures/agent-input/sample-payloads/perplexity-sample.json'),
-      ],
+      runId: 'run-20260410-james-live-01',
+      createdAt: '2026-04-10T02:00:00Z',
+      payloadPaths: [path.join(tempRoot, 'grok.json'), path.join(tempRoot, 'perplexity.json')],
       outputDir,
       scoringConfig,
       outputLanguagePolicy,
@@ -87,13 +103,15 @@ describe('ingest runner', () => {
       '08-run-metrics.json',
       '09-professional-report.json',
       '10-professional-report.md',
+      '11-professional-report.pdf',
     ]);
 
-    const scorecard = await readFile(path.join(outputDir, '04-match-scorecard.json'), 'utf8');
-    expect(scorecard).toContain('ada_signal');
+    const report = await readJsonFile<{ advisory_boundary: string }>(
+      path.join(outputDir, '09-professional-report.json'),
+    );
+    expect(report.advisory_boundary).toContain('attraction preference');
 
-    const report = await readFile(path.join(outputDir, '10-professional-report.md'), 'utf8');
-    expect(report).toContain('## Executive Summary');
-    expect(report).toContain('## Advisory Boundary');
+    const pdfStat = await readFile(path.join(outputDir, '11-professional-report.pdf'));
+    expect(pdfStat.byteLength).toBeGreaterThan(1000);
   });
 });

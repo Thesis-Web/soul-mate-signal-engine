@@ -30,6 +30,7 @@ const optionalArtifactRoleMap: Record<
   '08-run-metrics.json': 'run_metrics',
   '09-professional-report.json': 'professional_report_contract',
   '10-professional-report.md': 'professional_report_document',
+  '11-professional-report.pdf': 'professional_report_pdf',
 };
 
 const failureArtifactRoleMap: Record<FailureOnlyArtifact, ArtifactPlanEntry['artifact_role']> = {

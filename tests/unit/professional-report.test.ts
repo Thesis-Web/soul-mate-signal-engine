@@ -63,7 +63,7 @@ const rankedMatches: RankedMatch[] = [
     explanation:
       'Signal-based match with probable overlap in space exploration and artificial intelligence. Requires human judgment.',
     opener_suggestion:
-      'Your post about space exploration caught my eye — what pulled you into that space?',
+      'Your post about space exploration caught my eye - what pulled you into that space?',
     source_links: ['https://x.com/candidate_one/status/1'],
   },
 ];
@@ -93,6 +93,7 @@ describe('professional report builder', () => {
     expect(report.payload_agents).toEqual(['grok', 'perplexity']);
     expect(report.ranked_candidates[0]?.handle).toBe('candidate_one');
     expect(report.advisory_boundary).toContain('advisory only');
+    expect(report.advisory_boundary).toContain('attraction preference');
   });
 
   it('renders markdown with required sections', () => {

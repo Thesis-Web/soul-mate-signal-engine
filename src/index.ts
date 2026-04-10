@@ -37,3 +37,4 @@ export * from './ingestion/normalize-agent-payload.js';
 export * from './orchestration/dry-runner.js';
 export * from './orchestration/run-from-agent-payloads.js';
 export * from './artifacts/professional-report.js';
+export * from './artifacts/professional-report-pdf.js';
