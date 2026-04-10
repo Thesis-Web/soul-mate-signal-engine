@@ -23,3 +23,9 @@ manifests/*
 !logs/
 !logs/.gitkeep
 !logs/build-hardening-log-v0.1.0.md
+!manifests/
+!manifests/.gitkeep
+!manifests/*.json
+!logs/
+!logs/.gitkeep
+!logs/build-hardening-log-v0.1.0.md
