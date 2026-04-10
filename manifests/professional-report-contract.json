@@ -1,0 +1,14 @@
+{
+  "version": "0.1.0",
+  "operator_mode": "human_as_interface",
+  "required_sections": [
+    "executive_summary",
+    "subject_signal_summary",
+    "ranked_candidates",
+    "cautions_and_unknowns",
+    "operator_next_actions",
+    "advisory_boundary"
+  ],
+  "max_ranked_candidates": 5,
+  "requires_advisory_boundary": true
+}

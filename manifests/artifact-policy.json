@@ -1,0 +1,20 @@
+{
+  "successful_run_required": [
+    "01-subject-profile.json",
+    "02-candidate-pool.json",
+    "03-audited-signal-set.json",
+    "04-match-scorecard.json",
+    "05-output-brief.md",
+    "06-review-log.json"
+  ],
+  "successful_run_optional": [
+    "07-opener-pack.json",
+    "08-run-metrics.json",
+    "09-professional-report.json",
+    "10-professional-report.md",
+    "11-professional-report.pdf"
+  ],
+  "failure_only": [
+    "00-failure-log.json"
+  ]
+}

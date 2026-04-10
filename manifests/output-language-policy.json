@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "banned_phrases": [
+    "soulmate confirmed",
+    "perfect match",
+    "guaranteed fit",
+    "destined",
+    "definitely single",
+    "love certainty"
+  ],
+  "allowed_phrases": [
+    "signal-based match",
+    "probable overlap",
+    "advisory fit",
+    "possible conversation match",
+    "evidence-backed resonance",
+    "requires human judgment"
+  ]
+}
